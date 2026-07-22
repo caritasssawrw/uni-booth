@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>關係失去整理所 🩹｜明愛心營站</title>
+    <!-- Google Fonts: 手繪英文與繁體中文 -->
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Noto+Sans+HK:wght@400;500;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        /* 1. 全域設定與溫暖網格紙張質感 */
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: #f4fafe;
+            background-image: 
+                linear-gradient(rgba(154, 213, 248, 0.3) 1.5px, transparent 1.5px),
+                linear-gradient(90deg, rgba(154, 213, 248, 0.3) 1.5px, transparent 1.5px);
+            background-size: 22px 22px;
+            font-family: 'Noto Sans HK', sans-serif;
+            color: #111111;
+            margin: 0;
+            padding: 20px 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 520px;
+            width: 100%;
+        }
+
+        /* Header 區域 */
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .header .org-badge {
+            display: inline-block;
+            background: #9ad5f8;
+            color: #111;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 3px 12px;
+            border-radius: 12px;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+            border: 2px solid #111;
+            box-shadow: 2px 2px 0px #111;
+        }
+
+        .header h1 {
+            font-family: 'Caveat', 'Noto Sans HK', cursive;
+            font-size: 38px;
+            margin: 0;
+            line-height: 1.1;
+        }
+
+        .header p {
+            font-size: 13px;
+            color: #555;
+            margin-top: 6px;
+            font-weight: 500;
+        }
+
+        /* 整理所記錄卡 Header 樣式 */
+        .record-card {
+            background: #ffffff;
+            border: 3px solid #111;
+            border-radius: 16px;
+            padding: 18px;
+            margin-bottom: 24px;
+            box-shadow: 5px 5px 0px #111;
+        }
+
+        .record-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            font-size: 12px;
+            margin-top: 10px;
+        }
+
+        .record-field label {
+            display: block;
+            color: #666;
+            font-size: 11px;
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+
+        .record-field input {
+            width: 100%;
+            border: none;
+            background: transparent;
+            font-family: inherit;
+            font-weight: 700;
+            font-size: 14px;
+            outline: none;
+            border-bottom: 2px dashed #111;
+            padding: 2px 0;
+        }
+
+        /* Doodle 展板卡片基底 */
+        .doodle-card {
+            background: #ffffff;
+            border: 3.5px solid #111111;
+            border-radius: 18px;
+            box-shadow: 6px 6px 0px #111111;
+            padding: 22px;
+            margin-bottom: 28px;
+            position: relative;
+        }
+
+        .zone-tag {
+            font-size: 12px;
+            background: #fffbe6;
+            border: 2px solid #111;
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 12px;
+            margin-bottom: 8px;
+            font-weight: bold;
+            box-shadow: 2px 2px 0px #111;
+        }
+
+        .doodle-card h2 {
+            font-family: 'Caveat', 'Noto Sans HK', cursive;
+            font-size: 24px;
+            margin-top: 0;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* 展板引用與內文 */
+        .quote-box {
+            background: #fdfbf7;
+            border-left: 4.5px solid #9ad5f8;
+            padding: 12px 15px;
+            margin-bottom: 15px;
+            border-radius: 0 8px 8px 0;
+            font-size: 14px;
+            font-weight: 700;
+            color: #222;
+            line-height: 1.5;
+        }
+
+        .text-content {
+            font-size: 13.5px;
+            line-height: 1.65;
+            color: #444;
+            margin-bottom: 16px;
+        }
+
+        .text-content strong { color: #111; }
+        .text-content ul { padding-left: 20px; margin: 8px 0; }
+        .text-content li { margin-bottom: 5px; }
+
+        /* 按鈕與標籤 */
+        .tags-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .tag-btn {
+            background: #ffffff;
+            border: 2.5px solid #111111;
+            border-radius: 20px;
+            padding: 7px 13px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 2.5px 2.5px 0px #111111;
+            transition: all 0.15s ease;
+            font-family: inherit;
+        }
+
+        .tag-btn:hover, .tag-btn.active {
+            background: #9ad5f8;
+            transform: translateY(-2px);
+            box-shadow: 3.5px 3.5px 0px #111111;
+        }
+
+        .track-labels {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .label-pill {
+            background: #fff;
+            border: 2px solid #111;
+            padding: 5px 12px;
+            border-radius: 16px;
+            font-size: 12px;
+            box-shadow: 2px 2px 0px #111;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .label-pill:active {
+            box-shadow: 0px 0px 0px #111;
+            transform: translate(2px, 2px);
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 15px;
+        }
+
+        .action-btn {
+            background: #9ad5f8;
+            border: 2.5px solid #111111;
+            border-radius: 10px;
+            padding: 9px 18px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 3px 3px 0px #111111;
+            font-family: inherit;
+            transition: all 0.1s;
+        }
+
+        .action-btn:active {
+            transform: translate(2px, 2px);
+            box-shadow: 1px 1px 0px #111111;
+        }
+
+        /* SVG 畫布區域 */
+        .svg-stage {
+            width: 100%;
+            height: 190px;
+            position: relative;
+            margin: 10px 0;
+            background: #fafafa;
+            border: 2px dashed #ccc;
+            border-radius: 12px;
+        }
+
+        svg.stage-svg {
+            width: 100%;
+            height: 100%;
+            overflow: visible;
+        }
+
+        /* 反饋訊息框 */
+        .feedback-box {
+            background: #fdfbf7;
+            border: 2px dashed #111111;
+            border-radius: 10px;
+            padding: 12px 15px;
+            font-size: 13px;
+            line-height: 1.6;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        /* 表單與封存結果 */
+        .doodle-textarea {
+            width: 100%;
+            height: 85px;
+            border: 2.5px solid #111;
+            border-radius: 10px;
+            padding: 12px;
+            font-family: inherit;
+            font-size: 13.5px;
+            resize: none;
+            margin-bottom: 12px;
+            box-sizing: border-box;
+        }
+
+        .postcard-result {
+            display: none;
+            margin-top: 18px;
+            padding: 18px;
+            background: #fffbe6;
+            border: 2.5px dashed #111;
+            border-radius: 12px;
+            text-align: center;
+            position: relative;
+        }
+
+        .footer {
+            text-align: center;
+            font-size: 12px;
+            color: #666;
+            margin-top: 10px;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <!-- HEADER -->
+        <div class="header">
+            <span class="org-badge">CARITAS WELLNESS STATION</span>
+            <h1>關係失去整理所 🩹</h1>
+            <p>大專院校巡迴展覽 2026/27｜明愛心營站</p>
+        </div>
+
+        <!-- 整理所記錄卡 -->
+        <div class="record-card">
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px dashed #111; padding-bottom: 8px;">
+                <span style="font-weight: bold; font-size: 14px;">心靈整理記錄卡</span>
+                <span style="font-size: 11px; background: #111; color: #fff; padding: 2px 6px; border-radius: 4px;">NO. REL-2026</span>
+            </div>
+            <div class="record-grid">
+                <div class="record-field">
+                    <label>訪客姓名 / 暱稱</label>
+                    <input type="text" id="visitor-name" placeholder="請輸入名字" value="同行者">
+                </div>
+                <div class="record-field">
+                    <label>整理進度</label>
+                    <input type="text" value="梳理感受中..." readonly style="color: #666;">
+                </div>
+            </div>
+            <p style="font-size: 11.5px; color: #555; margin-top: 12px; margin-bottom: 0;">
+                🩹 歡迎來到整理所。這裡沒有「必須快速好起來」的限制，只有空間讓你按自己的節奏陪伴自己。
+            </p>
+        </div>
+
+        <!-- ZONE A: 身心發炎反應診斷 -->
+        <div class="doodle-card">
+            <span class="zone-tag">Zone A 🩺</span>
+            <h2>【身心覺察室】痛覺與訊號掃描</h2>
+            <div class="quote-box">
+                「失戀時心口發緊、頭昏腦脹、甚至嘔吐麻木……是我的身體出咗問題嗎？」
+            </div>
+            <div class="text-content">
+                當一段重要的關係結束，我們承受的往往不只是單一的情緒。昔日美好的回憶與當下的落差，會在短時間內形成巨大的心理壓力。<br><br>
+                請溫柔地告訴自己：這些「不尋常」的身心症狀，其實是你在<strong>「面對不尋常壓力時的正常反應」</strong>(Normal Stress Responses)。
+            </div>
+            
+            <p class="text-content" style="margin-bottom: 8px;"><strong>👇 點擊標籤，覺察你此刻的身心訊號：</strong></p>
+            <div class="tags-grid">
+                <button class="tag-btn" onclick="showDiag('心口翳悶 / 嘔吐', '【大腦痛覺網絡激活】腦神經科學顯示，社交拒絕觸發的大腦區域 (dACC) 與身體骨折時完全相同。心痛是真實的生理重傷。')">心口翳悶 / 嘔吐</button>
+                <button class="tag-btn" onclick="showDiag('難以專注 / 失眠', '【生存警報系統】依附連結斷裂時，大腦會發出高壓警報，動用大量能量去尋找安全感，導致專注力與睡眠失調。')">難以專注 / 失眠</button>
+                <button class="tag-btn" onclick="showDiag('麻木無感', '【自我保護機制】當情緒衝擊過大，大腦會暫時關閉感受，幫你隔離無法一次過消化的巨大痛苦。')">麻木無感</button>
+                <button class="tag-btn" onclick="showDiag('食慾劇變', '【腸腦軸反應】腸胃是大腦的第二情緒器官，劇烈的心理落差會直接反應在消化與食慾上。')">食慾劇變</button>
+            </div>
+
+            <div class="feedback-box" id="diag-feedback">
+                觀察你的身體，正為你承載著哪一種心痛的訊號？🤍
+            </div>
+        </div>
+
+        <!-- ZONE B-1: 非線性哀傷與曲折軌跡 -->
+        <div class="doodle-card">
+            <span class="zone-tag">Zone B-1 🌊</span>
+            <h2>【歷程觀察室】非線性的復原軌跡</h2>
+            <div class="quote-box">
+                「明明昨天好像好轉了，為什麼今天又突然崩潰？我是否退步了？」
+            </div>
+            <div class="text-content">
+                根據 <strong>Kübler-Ross 哀傷模型</strong> 與 <strong>Bowlby 依附理論</strong>，失去了重要連結時，內在警報系統會被觸發。<br><br>
+                復原過程是<strong>非線性 (Non-linear)</strong> 的！你不需要按次序走完每個階段，也不會一瞬間完全「好了」。
+            </div>
+
+            <div class="svg-stage">
+                <svg class="stage-svg" viewBox="0 0 450 180">
+                    <path id="curvyPath" d="M 35,130 C 90,20 140,170 225,90 C 290,10 360,170 415,50" fill="none" stroke="#111111" stroke-width="3.5" stroke-dasharray="6 5" stroke-linecap="round" />
+                    <circle cx="35" cy="130" r="5" fill="#111" />
+                    <circle cx="415" cy="50" r="5" fill="#111" />
+
+                    <g id="cloudGroupCurvy" transform="translate(35, 130)">
+                        <path d="M -38 -8 C -50 -26, -20 -42, 0 -34 C 20 -42, 50 -26, 38 -8 C 50 12, 30 34, 8 30 C -8 34, -34 26, -34 12 C -50 12, -50 -8, -38 -8 Z" fill="#9ad5f8" stroke="#111" stroke-width="2.5" />
+                        <circle cx="-9" cy="-6" r="3.5" fill="#111" />
+                        <circle cx="8" cy="-6" r="3.5" fill="#111" />
+                        <path d="M -4 4 L 5 4" stroke="#111" stroke-width="2.8" stroke-linecap="round" />
+                        <g transform="translate(28, -4) rotate(22)">
+                            <rect x="-8" y="-16" width="14" height="32" rx="7" fill="#ffffff" stroke="#111" stroke-width="2" />
+                            <circle cx="-1" cy="-1" r="3.5" fill="#e63946" />
+                        </g>
+                    </g>
+                </svg>
+            </div>
+
+            <div class="feedback-box" id="curvy-feedback">
+                點擊下方按鈕，觀察情緒在波浪軌跡上的真實動態 🤍
+            </div>
+
+            <div class="btn-group">
+                <button class="action-btn" onclick="oscillateAlongPath()">體驗曲折拉扯 🌊</button>
+            </div>
+        </div>
+
+        <!-- ZONE B-2: 雙軌擺盪模式 -->
+        <div class="doodle-card">
+            <span class="zone-tag">Zone B-2 🕰️</span>
+            <h2>【雙軌平衡室】修復的動態擺盪</h2>
+            <div class="quote-box">
+                「理智上知道要向前看，但感性上卻不斷被回憶拉扯……」
+            </div>
+            <div class="text-content">
+                學者 Stroebe & Schut 提出<strong>「雙軌擺盪模式 (DPM)」</strong>。健康的復原不是一味堅強，而是在兩端來回擺盪：
+                <ul>
+                    <li><strong>失落取向 (Loss)：</strong> 允許自己哭泣、思念、沉浸痛楚。</li>
+                    <li><strong>復原取向 (Restoration)：</strong> 建立新日常、嘗試新活動。</li>
+                </ul>
+            </div>
+
+            <div class="track-labels">
+                <div class="label-pill" onclick="setPendulumState('left')">🌧️ 失落端 (Loss)</div>
+                <div class="label-pill" onclick="setPendulumState('right')">🌱 復原端 (Restoration)</div>
+            </div>
+
+            <div class="svg-stage">
+                <svg class="stage-svg" viewBox="0 0 400 190">
+                    <circle cx="200" cy="15" r="5" fill="#111" />
+                    <path d="M 188 15 L 212 15" stroke="#111" stroke-width="3" stroke-linecap="round"/>
+
+                    <g id="pendulumGroup" style="transform-origin: 200px 15px; transform: rotate(0deg);">
+                        <line x1="200" y1="15" x2="200" y2="85" stroke="#111" stroke-width="2.5" stroke-dasharray="4 3" />
+
+                        <g transform="translate(200, 130)">
+                            <path d="M -45 -8 C -60 -30, -22 -48, 0 -40 C 22 -48, 60 -30, 45 -8 C 60 14, 36 40, 8 36 C -8 40, -40 30, -40 14 C -60 14, -60 -8, -45 -8 Z" fill="#9ad5f8" stroke="#111" stroke-width="2.5" />
+                            <circle cx="-11" cy="-7" r="4" fill="#111" />
+                            <circle cx="9" cy="-7" r="4" fill="#111" />
+                            <path d="M -4 4 L 6 4" stroke="#111" stroke-width="3" stroke-linecap="round" id="pendulumMouth" />
+                            <g transform="translate(34, -4) rotate(22)">
+                                <rect x="-9" y="-18" width="16" height="36" rx="8" fill="#ffffff" stroke="#111" stroke-width="2" />
+                                <circle cx="-1" cy="-1" r="4" fill="#e63946" />
+                            </g>
+                        </g>
+                    </g>
+                </svg>
+            </div>
+
+            <div class="feedback-box" id="pendulum-feedback">
+                點擊上方標籤或啟動按鈕，感受雙軌擺盪的規律 🤍
+            </div>
+
+            <div class="btn-group">
+                <button class="action-btn" onclick="startPendulumSwing()">啟動雙軌擺盪 🧭</button>
+            </div>
+        </div>
+
+        <!-- ZONE C: 心靈盒子與自我關懷 -->
+        <div class="doodle-card">
+            <span class="zone-tag">Zone C 📦</span>
+            <h2>【心靈封存室】投遞與溫柔釋放</h2>
+            <div class="quote-box">
+                「對待受傷的自己，我們往往比對待朋友更加嚴苛。」
+            </div>
+            <div class="text-content">
+                心理學家 Kristin Neff 提出<strong>「自我關懷 (Self-Compassion)」</strong>：包含承認痛苦的<strong>靜心覺察</strong>、理解受傷是<strong>共通人性</strong>、以及停止自我批判。<br><br>
+                面對關係的分離與改變，有哪些東西是你此刻想寫下來並暫時「封存」的？
+            </div>
+
+            <textarea class="doodle-textarea" id="self-note" placeholder="寫下你想放下的話。例如：我想放下對未來的恐懼、以及那句永遠等不到的抱歉..."></textarea>
+            
+            <div style="text-align: center;">
+                <button class="action-btn" onclick="generateTape()">封存至心靈盒子 📦</button>
+            </div>
+
+            <div class="postcard-result" id="postcard-box">
+                <h3 style="margin-top:0; color:#111;">已成功封存至整理所盒子 🤍</h3>
+                <p id="postcard-visitor" style="font-size: 12px; color: #666; margin-bottom: 5px;"></p>
+                <p id="postcard-content" style="font-size: 14.5px; font-weight: 700; color: #111; line-height: 1.6;"></p>
+                <small style="color: #666; font-size: 11.5px;">（這個動作，代表著你對過往的整理，與對自己的溫柔釋放）</small>
+            </div>
+        </div>
+
+        <!-- ZONE D: 心靈資源禮品包 -->
+        <div class="doodle-card" style="background-color: #fdfbf7; border-color: #111;">
+            <span class="zone-tag" style="background: #9ad5f8;">Zone D 🎁</span>
+            <h2>【資源閣】自我關懷禮品包</h2>
+            <div class="quote-box" style="border-left-color: #f4a261;">
+                「修復不是抹去過去，而是帶住傷痕，繼續溫柔生活。」
+            </div>
+            <div class="text-content">
+                完成 Zone A、B、C 體驗後，我們為你預備了<strong>「自我關懷禮品包」 (Self-Care Gift Pack)</strong>，請於實體展覽現場領取，將自我關懷帶回日常：
+                <ul>
+                    <li><strong>鬆鬆壓力球：</strong> 捏壓釋放身體積累的緊張警報。</li>
+                    <li><strong>自我關懷提示卡 (7張)：</strong> 每日一張，重新建構安全感。</li>
+                    <li><strong>展示小木架：</strong> 擺放提示卡，時刻提醒自己值得被溫柔對待。</li>
+                    <li><strong>日常自我關懷練習指引：</strong> 身心定錨與呼吸練習。</li>
+                </ul>
+            </div>
+            <div style="text-align: center; margin-top: 10px;">
+                <span class="tag-btn" style="background: #9ad5f8; cursor: default;">🩹 關係傷痛需要時間修復，你不需要獨自承受。</span>
+            </div>
+        </div>
+
+        <!-- FOOTER -->
+        <div class="footer">
+            <strong>明愛心營站 —— 關係傷痛支援計劃</strong> <br>
+            Caritas Supportive Service for Adults with Relational Wounds<br>
+            <span style="font-size: 11px; color: #888;">© 2026/27 大專院校巡迴攤位展覽</span>
+        </div>
+
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // Zone A 互動邏輯
+        function showDiag(title, text) {
+            const feedback = document.getElementById('diag-feedback');
+            feedback.innerHTML = `<b>【${title}】</b><br>${text}`;
+            document.querySelectorAll('.tag-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+
+        // Zone B-2 雙軌擺盪互動邏輯
+        const pendulumGroup = document.getElementById('pendulumGroup');
+        const pendulumFeedback = document.getElementById('pendulum-feedback');
+        const pendulumMouth = document.getElementById('pendulumMouth');
+        let isSwingingPendulum = false;
+        let pendulumAnimId = null;
+
+        function setPendulumState(pos) {
+            stopPendulum();
+            pendulumGroup.style.transition = "transform 0.6s cubic-bezier(0.25, 1, 0.5, 1)";
+            if (pos === 'left') {
+                pendulumGroup.style.transform = "rotate(-32deg)";
+                pendulumMouth.setAttribute('d', 'M -4 6 Q 1 1 6 6');
+                pendulumFeedback.innerHTML = "<b>🌧️ 停留在「失落端」：</b><br>哭泣、懷念、情緒低落是正常的。容許自己沉浸在痛楚中，是修復必經的過程。";
+            } else if (pos === 'right') {
+                pendulumGroup.style.transform = "rotate(32deg)";
+                pendulumMouth.setAttribute('d', 'M -4 2 Q 1 8 6 2');
+                pendulumFeedback.innerHTML = "<b>🌱 停留在「復原端」：</b><br>逐步適應新角色與生活、參與新活動。你正在長出新的內在適應力。";
+            }
+        }
+
+        function startPendulumSwing() {
+            stopPendulum();
+            isSwingingPendulum = true;
+            pendulumGroup.style.transition = "none";
+            let time = 0;
+            pendulumFeedback.innerHTML = "<b>🧭 雙軌擺盪中：</b><br>健康的哀傷適應會在兩端擺盪。初期頻繁，隨時間推移會漸漸平緩並以復原端為主。";
+
+            function animatePendulum() {
+                if (!isSwingingPendulum) return;
+                time += 0.045;
+                let angle = 32 * Math.cos(time * 2.6) * Math.exp(-time * 0.18);
+                pendulumGroup.style.transform = `rotate(${angle}deg)`;
+
+                if (angle < -8) pendulumMouth.setAttribute('d', 'M -4 6 Q 1 1 6 6');
+                else if (angle > 8) pendulumMouth.setAttribute('d', 'M -4 2 Q 1 8 6 2');
+                else pendulumMouth.setAttribute('d', 'M -4 4 L 6 4');
+
+                if (Math.abs(angle) > 0.4) {
+                    pendulumAnimId = requestAnimationFrame(animatePendulum);
+                } else {
+                    pendulumGroup.style.transform = `rotate(0deg)`;
+                    pendulumMouth.setAttribute('d', 'M -4 4 L 6 4');
+                    pendulumFeedback.innerHTML = "<b>🤍 趨於平衡：</b><br>偶爾在特定節日或經過舊地回到失落端，是完全正常的修復規律。";
+                    isSwingingPendulum = false;
+                }
+            }
+            animatePendulum();
+        }
+
+        function stopPendulum() {
+            isSwingingPendulum = false;
+            if (pendulumAnimId) cancelAnimationFrame(pendulumAnimId);
+        }
+
+        // Zone B-1 曲折軌跡互動邏輯
+        const curvyPath = document.getElementById('curvyPath');
+        const cloudGroupCurvy = document.getElementById('cloudGroupCurvy');
+        const curvyFeedback = document.getElementById('curvy-feedback');
+        const pathLength = curvyPath.getTotalLength();
+        let currentProgress = 0.05;
+        let curvyAnimFrame = null;
+
+        function updateCloudOnPath(progress) {
+            progress = Math.max(0, Math.min(1, progress));
+            currentProgress = progress;
+            const point = curvyPath.getPointAtLength(progress * pathLength);
+            cloudGroupCurvy.setAttribute('transform', `translate(${point.x}, ${point.y})`);
+        }
+
+        updateCloudOnPath(currentProgress);
+
+        function oscillateAlongPath() {
+            cancelAnimationFrame(curvyAnimFrame);
+            let startTime = null;
+            curvyFeedback.innerHTML = "<b>🌊 曲折前進中：</b><br>哀傷不是直線進程。允許自己在修復路上有起有伏，溫柔包容自己的反覆。";
+
+            function animateCurvy(timestamp) {
+                if (!startTime) startTime = timestamp;
+                let t = (timestamp - startTime) / 1000;
+                let swing = 0.5 + 0.45 * Math.sin(t * 3) * Math.exp(-t * 0.25);
+                updateCloudOnPath(swing);
+
+                if (t < 8.0) {
+                    curvyAnimFrame = requestAnimationFrame(animateCurvy);
+                } else {
+                    updateCloudOnPath(0.5);
+                    curvyFeedback.innerHTML = "<b>🤍 漸漸整合：</b><br>帶住這段經歷，你正在慢慢重新建立屬於自己的生活節奏。";
+                }
+            }
+            curvyAnimFrame = requestAnimationFrame(animateCurvy);
+        }
+
+        // Zone C 心靈封存邏輯
+        function generateTape() {
+            const note = document.getElementById('self-note').value;
+            const visitorName = document.getElementById('visitor-name').value || "同行者";
+            const box = document.getElementById('postcard-box');
+            const content = document.getElementById('postcard-content');
+            const visitorDisp = document.getElementById('postcard-visitor');
+
+            if (note.trim() === "") {
+                alert("請寫下你想放下的內容，完成心靈封存 🤍");
+                return;
+            }
+
+            visitorDisp.innerText = `記錄人：${visitorName}`;
+            content.innerText = `「${note}」`;
+            box.style.display = 'block';
+            document.getElementById('self-note').value = "";
+        }
+    </script>
+</body>
+</html>
