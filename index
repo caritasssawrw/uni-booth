@@ -400,7 +400,7 @@
             const box = document.getElementById('postcard-box');
             
             if (note.trim() === "") {
-                alert("請寫下你想安放的東西 🤍");
+                alert("請寫下你想安放的話 🤍");
                 return;
             }
 
@@ -411,5 +411,4 @@
         }
     </script>
 </body>
-</html> 
- 
+</html>
